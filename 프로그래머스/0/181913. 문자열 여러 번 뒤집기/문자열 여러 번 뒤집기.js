@@ -1,0 +1,11 @@
+function solution(my_string, queries) {
+    var answer = '';
+
+    answer = queries.reduce((word,curr)=> {
+                let lst = [...word];
+                let newLst = lst.slice(curr[0],curr[1]+1).reverse()
+                lst.splice(curr[0],curr[1]-curr[0]+1, ...newLst)
+                return lst.join("")
+            }, my_string)
+    return answer;
+}
