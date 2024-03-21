@@ -3,8 +3,7 @@ from collections import deque
 n, k = map(int,input().split())
 
 def bfs(x):
-    start = x
-    prev_pos = [-2]*100001
+    prev_pos = [None]*100001
     q = deque([x])
     prev_pos[x] = -1
     
@@ -24,7 +23,7 @@ def bfs(x):
         for nx in [x-1,x+1,2*x]:
             if nx<0 or nx>100000:
                 continue
-            if prev_pos[nx]==-2 :
+            if prev_pos[nx]==None :
                q.append(nx)
                prev_pos[nx] = x
 
