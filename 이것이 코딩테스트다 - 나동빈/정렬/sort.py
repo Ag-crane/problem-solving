@@ -1,6 +1,4 @@
-array = [7,5,9,0,3,1,6,2,4,8]
-
-# 선택 정렬 : O(N^2)
+# 선택 정렬 : O(n^2)
 def selection_sort(array):
     for i in range(len(array)):
         min_index = i
@@ -11,7 +9,7 @@ def selection_sort(array):
 
     return array
 
-# 삽입 정렬 : O(N^2)
+# 삽입 정렬 : O(n^2)
 # 거의 정렬된 상태의 리스트에 대해서는 매우 빠르다. 정렬된 정도에 따라 O(N)에 가까워짐
 def insertion_sort(array):
     
@@ -22,7 +20,8 @@ def insertion_sort(array):
             else:
                 return array
 
-# 퀵 정렬 : O(nlogn)
+# 퀵 정렬 : O(nlogn) ~ O(n^2)
+# 피벗을 어떻게 정하냐에 따라 속도의 차이가 있다
 def quick_sort(array,start,end):
     if start >= end:
         return
@@ -49,4 +48,25 @@ def quick_sort(array,start,end):
     
     return array
 
-print(quick_sort(array,0,len(array)-1))
+# 계수 정렬 : O(n+k) *k는 최댓값 
+# 데이터의 개수가 한정돼있을 때(많아도 됨), 최댓값과 최솟값의 차이가 너무 크지 않을 때 사용 가능하다
+# 동일한 값이 중복돼있을 때, 많이 중복돼있을수록 유리하다
+# 데이터의 특성을 파악하기 어렵거나 위 조건을 만족하지 못하면 퀵 정렬이 유리하다
+def count_sort(array):
+    count = [0] * (max(array)+1)
+    
+    for i in range(len(array)):
+        count[array[i]] += 1
+
+    result = []
+    for i in range(len(count)):
+        for j in range(count[i]):
+            result.append(i)
+    return result
+
+
+array = [7,5,9,0,3,1,6,2,4,8]
+array2 = [7,5,9,0,3,1,6,2,4,8,5,1,2,9]
+
+# print(quick_sort(array,0,len(array)-1))
+print(count_sort(array2))
