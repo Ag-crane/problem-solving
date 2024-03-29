@@ -41,3 +41,29 @@ sorted_array = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
 target = 15
 print(recursive_binary_search(sorted_array,target,0,len(sorted_array)))
 print(iterative_binary_search(sorted_array,target))
+
+# 맨 처음 x 찾기
+def binary_search_first(array, target, start, end):
+    if start > end:
+        return None
+    mid = (start + end) // 2
+    # x를 찾았을 때 가장 왼쪽에 있는 경우에만 반환
+    if (mid == 0 or array[mid-1] < array[mid]) and array[mid] == target:
+        return mid
+    elif array[mid] >= target:      # 등호 : 찾았는데 맨 왼쪽이 아닌 경우도 왼쪽 탐색
+        binary_search_first(array, target, start, mid-1)
+    else :       
+        binary_search_first(array, target, mid+1, end)
+
+# 맨 마지막 x 찾기
+def binary_search_last(array, target, start, end):
+    if start > end:
+        return None
+    mid = (start + end) // 2
+    # x를 찾았을 때 가장 오른쪽에 있는 경우에만 반환
+    if (mid == len(array) or array[mid+1] > array[mid]) and array[mid] == target:
+        return mid
+    elif array[mid] <= target:      # 등호 : 찾았는데 맨 오른쪽이 아닌 경우도 오른쪽 탐색
+        binary_search_last(array, target, mid+1, end)
+    else :       
+        binary_search_last(array, target, start, mid-1)
