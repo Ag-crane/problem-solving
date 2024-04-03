@@ -3,12 +3,15 @@ input = sys.stdin.readline
 
 # 두 공유기 사이의 거리의 최솟값이 d일 때, 설치 가능한 공유기 수를 리턴하는 함수
 def check(d):
-    selected = [array[0]]
+    # 첫 번째 집에 공유기 설치
+    last_install = array[0]     # 마지막으로 설치한 공유기 위치
+    count = 1   # 공유기 개수
     for i in range(1,n):
-        if array[i] - selected[-1] >= d:
-            selected.append(array[i])
+        if array[i] - last_install >= d:
+            last_install = array[i]
+            count += 1
 
-    return len(selected)
+    return count
 
 n, c = map(int,input().split())
 array = [int(input()) for _ in range(n)]
@@ -20,8 +23,8 @@ result = 0
 # d의 가능한 범위는 1 ~ 10^9 이므로, 이분탐색으로 찾는다.
 # 설치되는 공유기의 갯수가 c인 d를 찾고, 그 중에서 최댓값을 찾는다. 
 
-start = 0
-end = 1000000000
+start = 1
+end = array[-1] - array[0]
 
 while start<=end :
     
