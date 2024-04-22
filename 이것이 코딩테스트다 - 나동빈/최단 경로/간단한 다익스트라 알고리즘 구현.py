@@ -52,11 +52,11 @@ def dijkstra(start):
         now = get_next_node() # 현재 노드
         visited[now] = True
         # 현재 노드와 인접한 노드들 확인
-        for node, d in graph[now]:
+        for next, d in graph[now]:
             cost = distance[now] + d
             # 현재 노드를 거쳐서 다른 노드로 이동하는 거리가 지금까지 저장된 최단거리보다 더 짧은 경우
-            if cost < distance[node] :
-                distance[node] = cost
+            if cost < distance[next] :
+                distance[next] = cost
 
 # 다익스트라 알고리즘 수행
 dijkstra(start)
