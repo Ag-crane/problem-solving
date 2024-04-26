@@ -1,19 +1,12 @@
 n = int(input())
 
 d = [0] * (n+1)
-if n==1:
-    print(0)
-elif n==2:
-    print(1)
-else:
-    d[1] = 0
-    d[2] = 1
-    d[3] = 1
 
-    for i in range(4,n+1):
-        lst = [d[i-1]]
-        if i%3 == 0: lst.append(d[i//3])
-        if i%2 == 0: lst.append(d[i//2])
-        d[i] = min(lst) + 1
+for i in range(2, n+1):
+    d[i] = d[i-1] + 1  # 기본적으로 1을 빼는 경우를 고려
+    if i % 2 == 0:
+        d[i] = min(d[i], d[i//2] + 1)  # 2로 나누어 떨어지는 경우
+    if i % 3 == 0:
+        d[i] = min(d[i], d[i//3] + 1)  # 3으로 나누어 떨어지는 경우
 
-    print(d[n])
+print(d[n])
