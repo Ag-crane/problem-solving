@@ -1,13 +1,19 @@
-n = int(input())
-data = list(map(int,input().split()))
+def max_subarray_sum_dp(nums):
+    # dp 배열 초기화
+    dp = [0] * len(nums)
+    dp[0] = nums[0]
+    
+    # 각 원소에 대해 dp 값을 계산
+    for i in range(1, len(nums)):
+        dp[i] = max(nums[i], dp[i-1] + nums[i])
+    
+    # dp 배열에서 최대값을 찾아 반환
+    return max(dp)
 
-d = [0] * (n)
-d[0] = data[0]
-successive_sum = max(data[0], 0)
-for i in range(1,n):
-    d[i] = max(d[i-1], successive_sum + data[i])
-    successive_sum += data[i]
-    if successive_sum <= 0:
-        successive_sum = 0
+# 입력 받기
+n = int(input().strip())
+arr = list(map(int, input().strip().split()))
 
-print(d[n-1])
+# 최대 부분합 계산
+result = max_subarray_sum_dp(arr)
+print(result)
