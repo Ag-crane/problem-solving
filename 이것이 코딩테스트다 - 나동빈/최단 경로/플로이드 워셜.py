@@ -22,7 +22,7 @@ for i in range(n+1):
 for _ in range(m):
     # a에서 b로 가는 비용이 c
     a, b, c = map(int, input().split())
-    graph[a][b] = c
+    graph[a][b] = c # 최단거리 초기값 세팅
 
 # 플로이드 워셜 알고리즘
 for k in range(n+1):
