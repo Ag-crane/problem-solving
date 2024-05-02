@@ -15,8 +15,7 @@ start = int(input())
 
 # 각 노드에 연결되어 있는 노드에 대한 정보를 담을 리스트
 graph = [[] for _ in range(n+1)]
-# 각 노드 방문 여부 관리
-visited = [False] * (n + 1)
+
 # 최단 거리 테이블 초기화
 distance = [INF] * (n + 1)
 
@@ -36,7 +35,7 @@ def dijkstra(start):
     
     # 시작 노드에 대한 초기화
     distance[start] = 0
-    heapq.heappush(q,(0,start))
+    heapq.heappush(q, (0,start))
     
     while q:    # 큐가 비어있으면 종료
         dist, now = heapq.heappop(q)
@@ -49,7 +48,7 @@ def dijkstra(start):
             cost = dist + d
             if cost < distance[next]:
                 distance[next] = cost
-                heapq.heappush(q, (cost, next))
+                heapq.heappush(q, (cost, next)) # 거리가 갱신된 노드만 우선순위 큐에 넣는다.
                 
 # 다익스트라 알고리즘 수행
 dijkstra(start)
