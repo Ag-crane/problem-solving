@@ -2,7 +2,7 @@ with Ranked_Ecoli as (
     SELECT 
         id, 
         size_of_colony, 
-        (ROW_NUMBER() OVER (ORDER BY size_of_colony DESC) / count(*) over())*100 as percentage
+        (percent_rank() over(order by size_of_colony desc))*100 as percentage
     FROM ecoli_data
 )
 
@@ -17,5 +17,3 @@ from ecoli_data e
     join ranked_ecoli r
     on e.id = r.id
 order by e.id
-
-
