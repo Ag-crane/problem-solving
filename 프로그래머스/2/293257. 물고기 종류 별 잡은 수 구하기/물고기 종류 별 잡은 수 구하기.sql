@@ -1,6 +1,8 @@
-select count(*) as fish_count, b.fish_name
-from fish_info a
-    join fish_name_info b 
+with type_count as (select fish_type, count(*) as fish_count
+from fish_info group by fish_type)
+
+select a.fish_count, b.fish_name 
+from type_count a
+    left join fish_name_info b 
     on a.fish_type = b.fish_type
-group by b.fish_name
-order by fish_count desc
+order by fish_count desc;
