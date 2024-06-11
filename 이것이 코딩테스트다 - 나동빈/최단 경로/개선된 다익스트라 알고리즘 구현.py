@@ -40,8 +40,10 @@ def dijkstra(start):
     while q:    # 큐가 비어있으면 종료
         dist, now = heapq.heappop(q)
         # 방문여부 확인 : visited 리스트로 따로 관리할 필요 없다.
-        if dist > distance[now]:    # 이미 더 짧은 거리가 저장되어 있다면, 방문한 노드임                               
-            continue                # 방문한 노드는 무시한다
+        # 같은 노드가 여러 번 큐에 중복 삽입 된 경우, 거리 우선순위에 따라 거리가 더 긴 노드가 남아있게 된다.
+        # 이미 더 짧은 거리가 저장되어 있다면 무시한다.
+        if dist > distance[now]:                           
+            continue        
         
         # 현재 노드와 인접한 노드들 확인
         for next, d in graph[now]:
