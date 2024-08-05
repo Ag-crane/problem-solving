@@ -1,6 +1,6 @@
-def solution(land):
-    from collections import deque, defaultdict
+from collections import deque, defaultdict
 
+def solution(land):
     n, m = len(land), len(land[0])
     
     def bfs(x, y, cluster_id):
