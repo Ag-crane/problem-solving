@@ -1,32 +1,25 @@
 from collections import deque
 
-def printer_queue(test_cases):
-    results = []
-    for case in test_cases:
-        n, m, priorities = case
-        queue = deque([(priorities[i], i) for i in range(n)])
-        count = 0
+T = int(input())
 
-        while queue:
-            current = queue.popleft()
-            if any(current[0] < q[0] for q in queue):
-                queue.append(current)
-            else:
-                count += 1
-                if current[1] == m:
-                    results.append(count)
-                    break
-    return results
-
-# 입력 처리
-t = int(input())
-test_cases = []
-for _ in range(t):
+for _ in range(T):
     n, m = map(int, input().split())
-    priorities = list(map(int, input().split()))
-    test_cases.append((n, m, priorities))
 
-# 결과 출력
-results = printer_queue(test_cases)
-for result in results:
-    print(result)
+    arr = list(map(int,input().split()))
+    arr_with_index = [(i,arr[i]) for i in range(n)]
+    q = deque(arr_with_index)
+
+    count = 0
+    while True:
+        is_important = True
+        current = q.popleft()
+        for other in q:
+            if current[1] < other[1]:
+                is_important = False
+                q.append(current)
+                break
+        if is_important:
+            count += 1
+            if current[0] == m:
+                print(count)
+                break
