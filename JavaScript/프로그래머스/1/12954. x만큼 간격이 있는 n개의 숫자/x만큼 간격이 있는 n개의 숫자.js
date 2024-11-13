@@ -1,5 +1,3 @@
 function solution(x, n) {
-    var answer = [];
-    for (let i=1; i<=n; i++) answer.push(x*i)
-    return answer;
+    return Array.from({length: n}, (_, i) => x*(i+1))
 }
