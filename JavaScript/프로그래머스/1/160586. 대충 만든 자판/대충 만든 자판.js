@@ -8,15 +8,7 @@ function solution(keymap, targets) {
         })
     })
     answer = targets.map(string => {
-        let sum = 0
-        for (let char of string) {
-            if (dict[char]) {
-                sum += dict[char]
-            } else {
-                return -1
-            }
-        }
-        return sum
+        return [...string].reduce((a,c) => a + dict[c] ,0) || -1
     })
     
     return answer
