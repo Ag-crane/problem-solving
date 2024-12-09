@@ -3,15 +3,16 @@ function solution(ingredient) {
     let stack = []
     for (const num of ingredient) {
         stack.push(num)
-        if (stack.length >= 4) {
-            let top4 = stack.slice(stack.length - 4, stack.length)
-            if (top4.join('') === '1231'){
-                stack.pop()
-                stack.pop()
-                stack.pop()
-                stack.pop()
-                count++
-            }
+        
+        if (
+            stack.length >= 4 &&
+            stack[stack.length-1] === 1 &&
+            stack[stack.length-2] === 3 &&
+            stack[stack.length-3] === 2 &&
+            stack[stack.length-4] === 1
+        ) {
+            stack.length -= 4
+            count++
         }
     }
     return count
