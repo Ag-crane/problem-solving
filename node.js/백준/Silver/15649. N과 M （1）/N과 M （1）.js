@@ -1,10 +1,13 @@
 const input = require('fs').readFileSync(process.platform === 'linux' ? '/dev/stdin' : 'input.txt').toString().trim()
 const [N, M] = input.split(' ').map(Number)
 
+const selected = Array(N).fill(false)
+const cur = []
+let answer = ''
 
-function dfs(cur, selected) {
+function dfs(depth) {
     if (cur.length===M) {
-        console.log(...cur)
+        answer += cur.join(' ').concat('\n')
         return
     }
     
@@ -13,7 +16,7 @@ function dfs(cur, selected) {
             cur.push(i+1)
             selected[i] = true
             
-            dfs(cur, selected)
+            dfs(depth+1)
             
             cur.pop()
             selected[i] = false
@@ -21,4 +24,6 @@ function dfs(cur, selected) {
     }
 }
 
-dfs([], Array(N).fill(false))
+dfs(0)
+
+console.log(answer)
