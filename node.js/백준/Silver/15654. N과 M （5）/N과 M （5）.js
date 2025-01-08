@@ -7,7 +7,7 @@ const result = []
 function backtrack(cur, depth) {
     
     if (depth===M) {
-    result.push([...cur])
+    result.push(cur.join(' '))
         return
     }
 
@@ -21,4 +21,4 @@ function backtrack(cur, depth) {
 
 backtrack([], 0)
 
-console.log(result.map(arr => arr.join(' ')).join('\n'))
+console.log(result.join('\n'))
