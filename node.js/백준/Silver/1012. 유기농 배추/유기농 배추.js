@@ -4,37 +4,37 @@ const input = require("fs")
     .trim()
     .split(/\r?\n/);
 
-const T = +input[0];
-let line = 1;
-for (let t = 0; t < T; t++) {
+let lineIndex = 0;
+const T = +input[lineIndex++];
 
-    const [M, N, K] = input[line++].split(" ").map(Number);
+for (let _ = 0; _ < T; _++) {
+    const [M, N, K] = input[lineIndex++].split(" ").map(Number);
     const ground = Array.from({ length: N }, (_) => Array(M).fill(0));
-    for (let i = line; i < line + K; i++) {
-        const [col, row] = input[i].split(" ").map(Number);
-        ground[row][col] = 1;
+
+    for (let _ = 0; _ < K; _++) {
+        const [y, x] = input[lineIndex++].split(" ").map(Number);
+        ground[x][y] = 1;
     }
-    line += K
 
     const dx = [1, -1, 0, 0];
     const dy = [0, 0, 1, -1];
 
     function dfs(x, y) {
+        if (x >= N || x < 0 || y >= M || y < 0 || ground[x][y] === 0) return;
+
         ground[x][y] = 0;
 
         for (let i = 0; i < 4; i++) {
-            const [nx, ny] = [x + dx[i], y + dy[i]];
-            if (nx >= N || nx < 0 || ny > M || ny < 0) continue;
-            if (ground[nx][ny] === 1) dfs(nx, ny);
+            dfs(x + dx[i], y + dy[i]);
         }
     }
 
     let count = 0;
-    for (let x = 0; x < N; x++) {
-        for (let y = 0; y < M; y++) {
-            if (ground[x][y] === 1) {
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < M; j++) {
+            if (ground[i][j] === 1) {
                 count++;
-                dfs(x, y);
+                dfs(i, j);
             }
         }
     }
