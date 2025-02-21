@@ -1,14 +1,12 @@
-# SELECT FOOD_TYPE, MAX(FAVORITES) AS FAVORITES
-# FROM REST_INFO
-# GROUP BY FOOD_TYPE
+with max_table as (
+    select food_type, max(favorites) as max_favorites
+    from rest_info
+    group by food_type
+)
 
-SELECT A.FOOD_TYPE, REST_ID, REST_NAME, A.FAVORITES
-FROM REST_INFO A
-    JOIN (
-        SELECT FOOD_TYPE, MAX(FAVORITES) AS FAVORITES
-        FROM REST_INFO
-        GROUP BY FOOD_TYPE  
-    ) B
-    ON A.FAVORITES = B.FAVORITES
-    AND A.FOOD_TYPE = B.FOOD_TYPE
-ORDER BY A.FOOD_TYPE DESC
+select r.food_type, rest_id, rest_name, m.max_favorites as favorites
+from rest_info r
+join max_table m
+on r.food_type = m.food_type
+where r.favorites = m.max_favorites
+order by food_type desc
