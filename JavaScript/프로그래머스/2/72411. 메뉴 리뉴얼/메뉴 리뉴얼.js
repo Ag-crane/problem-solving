@@ -1,10 +1,4 @@
 function solution(orders, course) {
-    /*
-    - 최소 2명 이상의 손님으로부터 주문된 조합만 고려
-    - 가장 많이 함께 주문한 단품메뉴로 구성
-    - course 수만큼 메뉴 조합
-    */
-    
     // 문자열에서 n개 뽑는 함수
     function combinations(str, n) {
         str = [...str].sort()
