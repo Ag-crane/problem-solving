@@ -1,19 +1,25 @@
-# 자동차 종류가 '트럭'인 자동차의 대여 기록에 대해서
-# 기록 별로 대여 금액(컬럼명: FEE)을 구하여
-# 대여 기록 ID와 대여 금액 리스트를 출력
-# 대여 금액을 기준으로 내림차순 정렬하고, 대여 금액이 같은 경우 대여 기록 ID를 기준으로 내림차순 정렬
+WITH TRUCKS AS (
+    SELECT 
+        C.CAR_ID, C.CAR_TYPE, C.DAILY_FEE, H.HISTORY_ID, 
+        DATEDIFF(END_DATE, START_DATE) + 1 AS DATES,
+        CASE
+            WHEN DATEDIFF(END_DATE, START_DATE) + 1 < 7 THEN NULL
+            WHEN DATEDIFF(END_DATE, START_DATE) + 1 < 30 THEN '7일 이상'
+            WHEN DATEDIFF(END_DATE, START_DATE) + 1 < 90 THEN '30일 이상'
+            ELSE '90일 이상'
+        END AS DURATION_TYPE
+    FROM CAR_RENTAL_COMPANY_CAR C
+    JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY H USING (CAR_ID)
+    WHERE C.CAR_TYPE = '트럭'
+)
 
-select rh.history_id, floor((datediff(end_date,start_date)+1)*c.daily_fee*if(discount_rate is null,1,(100-dp.discount_rate)/100)) as fee
-from car_rental_company_car c
-join car_rental_company_rental_history rh
-    on c.car_id = rh.car_id
-left join car_rental_company_discount_plan dp
-    on c.car_type = dp.car_type
-    and case
-        when datediff(end_date,start_date)+1 >= 90 then '90일 이상'
-        when datediff(end_date,start_date)+1 >= 30 then '30일 이상'
-        when datediff(end_date,start_date)+1 >= 7 then '7일 이상'
-        else null
-    end = dp.duration_type
-where c.car_type = '트럭'
-order by fee desc, rh.history_id desc
+SELECT T.HISTORY_ID, 
+    FLOOR((T.DAILY_FEE * T.DATES) * (100 - COALESCE(D.DISCOUNT_RATE, 0)) / 100) AS FEE
+FROM TRUCKS T
+LEFT JOIN (
+    SELECT *
+    FROM CAR_RENTAL_COMPANY_DISCOUNT_PLAN
+    WHERE CAR_TYPE = '트럭'
+) D
+USING(DURATION_TYPE)
+ORDER BY FEE DESC, T.HISTORY_ID DESC
