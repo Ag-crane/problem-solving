@@ -1,16 +1,22 @@
-with recursive hours as (
-    select 0 as hour
-    union
-    select hour + 1
-    from hours
-    where hour < 23
+WITH RECURSIVE 
+HOURS AS (
+    SELECT 0 AS HOUR
+    UNION ALL
+    SELECT HOUR + 1
+    FROM HOURS
+    WHERE HOUR < 23
+),
+HOUR_COUNT AS (
+    SELECT HOUR, COUNT(*) AS COUNT
+    FROM (
+        SELECT HOUR(DATETIME) AS HOUR
+        FROM ANIMAL_OUTS
+    ) A
+    GROUP BY HOUR
 )
 
-select b.hour, if(a.count is null,0,a.count) as count
-from (
-    select hour(datetime) as hour, count(*) as count
-    from animal_outs
-    group by hour(datetime)
-) a
-    right join hours b
-    on a.hour = b.hour
+SELECT H.HOUR, COALESCE(HC.COUNT, 0)
+FROM HOUR_COUNT HC
+RIGHT JOIN HOURS H
+ON HC.HOUR = H.HOUR
+
