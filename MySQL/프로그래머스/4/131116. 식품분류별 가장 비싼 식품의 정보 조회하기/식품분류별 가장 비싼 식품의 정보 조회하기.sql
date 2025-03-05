@@ -1,9 +1,10 @@
-select a.category, a.price as max_price, a.product_name
+select category, max_price, product_name
 from food_product a
 join (
-    select product_id, category, max(price) as max_price
+    select category, max(price) as max_price
     from food_product
-    where category in ('과자', '국', '김치', '식용유')
     group by category
-) b on a.category = b.category and a.price = b.max_price
-order by a.price desc
+    having category in ('과자', '국', '김치', '식용유')
+) b using(category)
+where a.price = b.max_price
+order by max_price desc
