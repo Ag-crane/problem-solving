@@ -1,8 +1,7 @@
--- 코드를 입력하세요
-SELECT DISTINCT A.USER_ID, A.PRODUCT_ID
-from ONLINE_SALE A
-    JOIN ONLINE_SALE B 
-    ON A.USER_ID = B.USER_ID
-        AND A.PRODUCT_ID = B.PRODUCT_ID
-        AND A.SALES_DATE != B.SALES_DATE
-ORDER BY A.USER_ID, A.PRODUCT_ID DESC
+select distinct a.user_id, a.product_id
+from online_sale a
+join online_sale b
+on a.user_id = b.user_id
+and a.product_id = b.product_id
+and a.online_sale_id != b.online_sale_id
+order by a.user_id, a.product_id desc

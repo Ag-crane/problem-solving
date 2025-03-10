@@ -1,33 +1,13 @@
-# 리뷰를 가장 많이 작성한 회원의 리뷰를 조회
-# 회원 이름, 리뷰 텍스트, 리뷰 작성일
-# 리뷰작성일 오름차순, 리뷰텍스트 오름차순
-
-WITH REVIEW_COUNTS AS (
-    SELECT MEMBER_ID, COUNT(REVIEW_ID) AS REVIEW_COUNT
-    FROM REST_REVIEW
-    GROUP BY MEMBER_ID
-), BEST_REVIEWERS AS (
-    SELECT MEMBER_ID
-    FROM REVIEW_COUNTS
-    WHERE REVIEW_COUNT = (
-        SELECT MAX(REVIEW_COUNT)
-        FROM REVIEW_COUNTS
-    )
+with ranked_cte as (
+    select member_id, count(*) as 'count', rank() over (order by count(*) desc) as 'rank'
+    from rest_review
+    group by member_id
+    order by count desc
 )
 
-SELECT MP.MEMBER_NAME, RR.REVIEW_TEXT, DATE_FORMAT(RR.REVIEW_DATE,'%Y-%m-%d')
-FROM MEMBER_PROFILE MP
-    JOIN REST_REVIEW RR
-    ON MP.MEMBER_ID = RR.MEMBER_ID
-WHERE MP.MEMBER_ID IN (
-    SELECT MEMBER_ID
-    FROM REVIEW_COUNTS
-    WHERE REVIEW_COUNT = (
-        SELECT MAX(REVIEW_COUNT)
-        FROM REVIEW_COUNTS
-    )
-)
-ORDER BY RR.REVIEW_DATE, RR.REVIEW_TEXT
-
-
-
+select a.MEMBER_NAME, b.REVIEW_TEXT, date_format(b.REVIEW_DATE, '%Y-%m-%d') as REVIEW_DATE
+from member_profile a
+join rest_review b on a.member_id = b.member_id
+join ranked_cte c on a.member_id = c.member_id
+where c.rank = 1
+order by REVIEW_DATE, REVIEW_TEXT

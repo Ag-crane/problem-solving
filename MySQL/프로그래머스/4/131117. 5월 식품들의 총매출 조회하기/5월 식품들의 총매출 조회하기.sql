@@ -1,11 +1,6 @@
-# 생산일자가 2022년 5월인 식품
-# 식품 ID, 식품 이름, 총매출을 조회
-# 총매출 내림차순, 식품 ID 오름차순
-
-SELECT P.PRODUCT_ID, P.PRODUCT_NAME, SUM(P.PRICE*O.AMOUNT) AS TOTAL_SALES
-FROM FOOD_PRODUCT P
-    JOIN FOOD_ORDER O
-    ON P.PRODUCT_ID = O.PRODUCT_ID
-WHERE O.PRODUCE_DATE LIKE '2022-05%'
-GROUP BY P.PRODUCT_ID
-ORDER BY TOTAL_SALES DESC, P.PRODUCT_ID
+select p.product_id, p.product_name, sum(o.amount*p.price) as total_sales
+from food_order o
+join food_product p using(product_id)
+where o.produce_date like '2022-05%'
+group by p.product_id, p.product_name
+order by total_sales desc, p.product_id
